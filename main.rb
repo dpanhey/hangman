@@ -3,4 +3,11 @@
 require 'require_all'
 require_all 'lib'
 
-class Hangman; end
+# the class for starting the game Hangman
+class Hangman
+  def initialize
+    GameLogic.new
+  end
+end
+
+p Hangman.new
