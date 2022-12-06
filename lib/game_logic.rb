@@ -27,7 +27,7 @@ class GameLogic
   end
 
   def validate_input
-    @input = gets.chomp.downcase until
+    input until
       @input.length == 1 &&
       @input.match?(/[[:alpha:]]/) &&
       !@displaying_word.include?(@input)
