@@ -10,4 +10,4 @@ class Hangman
   end
 end
 
-p Hangman.new
+Hangman.new
