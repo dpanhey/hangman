@@ -34,7 +34,7 @@ class GameLogic
 
   def start_game
     initialize_content
-    p @game_content
+    intro_message
     game
   end
 
@@ -122,6 +122,6 @@ class GameLogic
   end
 
   def check_win
-    @game_content[guessing_word][0] == @game_content[display_displaying_word][0].gsub(/\s+/, '')
+    @game_content[:guessing_word][0] == @game_content[:displaying_word][0].gsub(/\s+/, '')
   end
 end
