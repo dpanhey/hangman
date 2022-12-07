@@ -7,18 +7,12 @@ require_all 'lib'
 class GameLogic
   include DisplayText
   include PickWord
-  # the player is allowed 7 mistakes to make
+
   def initialize
-    initialize_content
-    make_turn
+    start_game
   end
 
-  def initialize_content
-    initialize_hash
-    initialize_pick_word
-  end
-
-  def initialize_hash
+  def initialize_saving_hash
     @game_content = {
       input: '',
       guessing_word: [],
@@ -31,22 +25,44 @@ class GameLogic
     }
   end
 
-  def initialize_pick_word
+  def initialize_content
+    initialize_saving_hash
     @game_content[:guessing_word] << choose_random_word('google-10000-english-no-swears.txt')
     @game_content[:displaying_word] = Array.new(1) { '_' * @game_content[:guessing_word][0].length }
     @game_content[:displaying_word][0].gsub!(/(.{1})(?=.)/, '\1 \2')
   end
 
-  def make_turn
+  def start_game
+    initialize_content
     p @game_content
-    guess_word until @game_content[:guesses][:mistakes_count] >= 7
+    game
+  end
+
+  def game
+    loop do
+      make_turn
+      return loose_game if @game_content[:guesses][:mistakes_count] >= 7
+      return win_game if check_win
+    end
+  end
+
+  def loose_game
     loosing_message
+  end
+
+  def win_game
+    winning_message
+  end
+
+  def make_turn
+    guess_word
+    update_content
+    display_turn_text
   end
 
   def guess_word
     input
     validate_guess
-    update_content
   end
 
   def validate_guess
@@ -103,5 +119,9 @@ class GameLogic
   def update_content
     update_guessed_characters
     update_displaying_word
+  end
+
+  def check_win
+    @game_content[guessing_word][0] == @game_content[display_displaying_word][0].gsub(/\s+/, '')
   end
 end
