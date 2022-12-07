@@ -66,11 +66,7 @@ class GameLogic
   end
 
   def validate_guess
-    if char_included?
-      good_guess
-    else
-      bad_guess
-    end
+    char_included? ? good_guess : bad_guess
   end
 
   def good_guess
