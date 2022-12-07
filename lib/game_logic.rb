@@ -53,8 +53,17 @@ class GameLogic
     input until
       @game_content[:input].length == 1 &&
       @game_content[:input].match?(/[[:alpha:]]/) &&
-      !@game_content[:displaying_word].include?(@game_content[:input])
+      !already_guessed?
     @game_content[:guessed_characters] << @game_content[:input]
     @game_content[:guessed_characters][0].gsub!(/(.{1})(?=.)/, '\1 \2')
+  end
+
+  def already_guessed?
+    # muss in zukunft geändert werden, statt displaying_word zu guessed_characters
+    @game_content[:displaying_word].include?(@game_content[:input])
+  end
+
+  def char_included?
+    @game_content[:guessing_word].include?(@game_content[:input])
   end
 end
