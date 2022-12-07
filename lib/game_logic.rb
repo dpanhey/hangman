@@ -42,8 +42,7 @@ class GameLogic
       p @game_content
       input
       validate_guess
-      update_guessed_characters
-      update_displaying_word
+      update_content
     end
     loosing_message
   end
@@ -97,5 +96,10 @@ class GameLogic
       @times_index = index * 2
       @game_content[:displaying_word][0][@times_index] = char if char == @game_content[:input]
     end
+  end
+
+  def update_content
+    update_guessed_characters
+    update_displaying_word
   end
 end
