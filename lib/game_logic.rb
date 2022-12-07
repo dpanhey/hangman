@@ -10,7 +10,7 @@ class GameLogic
   # the player is allowed 7 mistakes to make
   def initialize
     initialize_content
-    input
+    make_guess
   end
 
   def initialize_content
@@ -39,6 +39,7 @@ class GameLogic
 
   def make_guess
     input
+    update_guessed_characters
   end
 
   def validate_guess; end
@@ -53,9 +54,7 @@ class GameLogic
     input until
       @game_content[:input].length == 1 &&
       @game_content[:input].match?(/[[:alpha:]]/) &&
-      !already_guessed?
-    @game_content[:guessed_characters] << @game_content[:input]
-    @game_content[:guessed_characters][0].gsub!(/(.{1})(?=.)/, '\1 \2')
+      !already_guessed? # in zukunft rausziehen in guess methode
   end
 
   def already_guessed?
@@ -65,5 +64,10 @@ class GameLogic
 
   def char_included?
     @game_content[:guessing_word].include?(@game_content[:input])
+  end
+
+  def update_guessed_characters
+    @game_content[:guessed_characters] << @game_content[:input]
+    @game_content[:guessed_characters][0].gsub!(/(.{1})(?=.)/, '\1 \2')
   end
 end
