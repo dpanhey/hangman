@@ -43,6 +43,7 @@ class GameLogic
       validate_guess
       update_guessed_characters
     end
+    display_string('Sorry, the game is over!')
   end
 
   def validate_guess
@@ -78,8 +79,7 @@ class GameLogic
   end
 
   def already_guessed?
-    # muss in zukunft geändert werden, statt displaying_word zu guessed_characters
-    @game_content[:displaying_word].include?(@game_content[:input])
+    @game_content[:guessed_characters].include?(@game_content[:input])
   end
 
   def char_included?
