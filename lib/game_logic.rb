@@ -39,9 +39,11 @@ class GameLogic
 
   def make_guess
     until @game_content[:guesses][:mistakes_count] >= 7
+      p @game_content
       input
       validate_guess
       update_guessed_characters
+      update_displaying_word
     end
     display_string('Sorry, the game is over!')
   end
@@ -88,5 +90,12 @@ class GameLogic
 
   def update_guessed_characters
     @game_content[:guessed_characters] << @game_content[:input]
+  end
+
+  def update_displaying_word
+    @game_content[:guessing_word][0].each_char.with_index do |char, index|
+      @times_index = index * 2
+      @game_content[:displaying_word][0][@times_index] = char if char == @game_content[:input]
+    end
   end
 end
