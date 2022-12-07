@@ -10,7 +10,7 @@ class GameLogic
   # the player is allowed 7 mistakes to make
   def initialize
     initialize_content
-    make_guess
+    make_turn
   end
 
   def initialize_content
@@ -37,14 +37,16 @@ class GameLogic
     @game_content[:displaying_word][0].gsub!(/(.{1})(?=.)/, '\1 \2')
   end
 
-  def make_guess
-    until @game_content[:guesses][:mistakes_count] >= 7
-      p @game_content
-      input
-      validate_guess
-      update_content
-    end
+  def make_turn
+    p @game_content
+    guess_word until @game_content[:guesses][:mistakes_count] >= 7
     loosing_message
+  end
+
+  def guess_word
+    input
+    validate_guess
+    update_content
   end
 
   def validate_guess
