@@ -23,6 +23,19 @@ module DisplayText
     end
   end
 
+  def display_turn_text
+    display_mistake_counter
+    display_displaying_word
+  end
+
+  def display_mistake_counter
+    puts "Mistakes: #{@game_content[:guesses][:mistakes_count]} of 7!"
+  end
+
+  def display_displaying_word
+    puts "Your guesses word so far: #{@game_content[:display_displaying_word][0]}"
+  end
+
   def intro_message
     display_multiline_string(['Welcome to Hangman!',
                               'In this game, you have to guess the right word.',
