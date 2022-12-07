@@ -29,13 +29,15 @@ module DisplayText
                               'You are allowed to make 7 mistakes, after that you lose!'])
   end
 
-  def winning_message(word, guesses, mistakes)
-    display_multiline_string(["Yes, right, #{word} is the right answer!",
-                              "You won after #{guesses} guesses and #{mistakes} mistakes!"])
+  def winning_message
+    display_multiline_string(["Yeah, #{@game_content[:guessing_word][0]} is the right answer!",
+                              "You won after #{@game_content[:guesses][:guesses_count]} guesses and "\
+                              "#{@game_content[:guesses][:mistakes_count]} mistakes!"])
   end
 
-  def loosing_message(word, guesses, mistakes)
-    display_multiline_string(["Oh no, that was your last guess for the word: #{word}!",
-                              "You loose after #{guesses} guesses and #{mistakes} mistakes!"])
+  def loosing_message
+    display_multiline_string(["Oh no, that was your last guess for the word: #{@game_content[:guessing_word][0]}!",
+                              "You loose after #{@game_content[:guesses][:guesses_count]} guesses and "\
+                              "#{@game_content[:guesses][:mistakes_count]} mistakes!"])
   end
 end

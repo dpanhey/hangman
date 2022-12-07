@@ -45,7 +45,7 @@ class GameLogic
       update_guessed_characters
       update_displaying_word
     end
-    display_string('Sorry, the game is over!')
+    loosing_message
   end
 
   def validate_guess
