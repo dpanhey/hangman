@@ -15,7 +15,7 @@ class GameLogic
 
   def initialize_content
     initialize_hash
-    initialize_word
+    initialize_pick_word
   end
 
   def initialize_hash
@@ -25,24 +25,44 @@ class GameLogic
       displaying_word: [],
       guessed_characters: [],
       guesses: {
-        guesses: 0,
-        mistakes: 0
+        guesses_count: 0,
+        mistakes_count: 0
       }
     }
   end
 
-  def initialize_word
+  def initialize_pick_word
     @game_content[:guessing_word] << choose_random_word('google-10000-english-no-swears.txt')
     @game_content[:displaying_word] = Array.new(1) { '_' * @game_content[:guessing_word][0].length }
     @game_content[:displaying_word][0].gsub!(/(.{1})(?=.)/, '\1 \2')
   end
 
   def make_guess
-    input
-    update_guessed_characters
+    until @game_content[:guesses][:mistakes_count] >= 7
+      input
+      validate_guess
+      update_guessed_characters
+    end
   end
 
-  def validate_guess; end
+  def validate_guess
+    if char_included?
+      good_guess
+    else
+      bad_guess
+    end
+  end
+
+  def good_guess
+    display_string("Thats right, '#{@game_content[:input]}' is in the word!")
+    @game_content[:guesses][:guesses_count] += 1
+  end
+
+  def bad_guess
+    display_string("Im sorry, '#{@game_content[:input]}' is not in the word!")
+    @game_content[:guesses][:guesses_count] += 1
+    @game_content[:guesses][:mistakes_count] += 1
+  end
 
   def input
     display_string('Please type in one alphabetical character that you didnt choose yet!')
@@ -63,11 +83,10 @@ class GameLogic
   end
 
   def char_included?
-    @game_content[:guessing_word].include?(@game_content[:input])
+    @game_content[:guessing_word][0].include?(@game_content[:input])
   end
 
   def update_guessed_characters
     @game_content[:guessed_characters] << @game_content[:input]
-    @game_content[:guessed_characters][0].gsub!(/(.{1})(?=.)/, '\1 \2')
   end
 end
