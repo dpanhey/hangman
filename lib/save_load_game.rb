@@ -6,7 +6,7 @@ require 'json'
 module SaveLoadGame
   def ask_for_load
     display_string("If you want to load a savegame, type 'load'.")
-    load_file(ask_for_filename) if gets.chomp == 'load'
+    load_savegame(ask_for_filename) if gets.chomp == 'load'
   end
 
   def ask_for_filename
@@ -14,21 +14,27 @@ module SaveLoadGame
     gets.chomp
   end
 
-  def load_file(filename)
-    File.exist?(filename) ? from_json(File.read(filename)) : 'No such File detected!'
+  def load_savegame(filename)
+    if File.exist?("savegames/#{filename}.txt")
+      from_json!(File.read("savegames/#{filename}.txt"))
+      display_string('You succesfully loaded a game!')
+      display_turn_text
+    else
+      display_string('No such File detected!')
+    end
   end
 
   def ask_for_save
     display_string("If you want to save this game, type 'save'.")
-    save_file if gets.chomp == 'save'
+    save_savegame if gets.chomp == 'save'
   end
 
-  def save_file
-    Dir.mkdir('../savegames') unless Dir.exist?('../savegames')
+  def save_savegame
+    Dir.mkdir('savegames') unless Dir.exist?('savegames')
 
-    savegame_name = "savegame_#{@game_content[guessing_word[0]]}.txt"
-    File.open("../#{savegame_name}", 'w') { |file| file.puts to_json }
-    display_string("File #{savegame_name} saved sucessfull! You may close this game.")
+    savegame_name = "savegame_#{@game_content[:guessing_word][0]}.txt"
+    File.open("savegames/#{savegame_name}", 'w') { |file| file.puts to_json }
+    display_string("File #{savegame_name} saved successfull! You may close this game.")
   end
 
   def to_json(*_args)
@@ -40,7 +46,7 @@ module SaveLoadGame
   end
 
   def from_json!(string)
-    JSON.parse(string).each do |variable, value|
+    JSON.parse(string, { symbolize_names: true }).each do |variable, value|
       instance_variable_set variable, value
     end
   end
