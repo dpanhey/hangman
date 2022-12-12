@@ -5,12 +5,12 @@ require 'json'
 # the module for the saving and loading methods for hangman
 module SaveLoadGame
   def ask_for_load
-    puts "If you want to load a savegame, type 'load'."
+    display_string("If you want to load a savegame, type 'load'.")
     load_file(ask_for_filename) if gets.chomp == 'load'
   end
 
   def ask_for_filename
-    puts 'Type in the name of your file.'
+    display_string('Type in the name of your file.')
     gets.chomp
   end
 
@@ -19,7 +19,7 @@ module SaveLoadGame
   end
 
   def ask_for_save
-    puts "If you want to save this game, type 'save'."
+    display_string("If you want to save this game, type 'save'.")
     save_file if gets.chomp == 'save'
   end
 
@@ -28,7 +28,7 @@ module SaveLoadGame
 
     savegame_name = "savegame_#{@game_content[guessing_word[0]]}.txt"
     File.open("../#{savegame_name}", 'w') { |file| file.puts to_json }
-    puts "File #{savegame_name} saved sucessfull! You may close this game."
+    display_string("File #{savegame_name} saved sucessfull! You may close this game.")
   end
 
   def to_json(*_args)
