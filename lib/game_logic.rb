@@ -5,6 +5,7 @@ require_all 'lib'
 
 # the class for handling the game logic of hangman
 class GameLogic
+  include SaveLoadGame
   include DisplayText
   include PickWord
 
@@ -35,11 +36,13 @@ class GameLogic
   def start_game
     initialize_content
     intro_message
+    ask_for_load
     game
   end
 
   def game
     loop do
+      ask_for_save unless @game_content[:guesses][:guesses_count].zero?
       make_turn
       return loose_game if @game_content[:guesses][:mistakes_count] >= 7
       return win_game if check_win
