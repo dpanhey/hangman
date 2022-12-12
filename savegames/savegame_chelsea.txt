@@ -1,0 +1,1 @@
+{"@game_content":{"input":"u","guessing_word":["chelsea"],"displaying_word":["c h e l _ e a"],"guessed_characters":["a","z","l","c","y","h","e","u"],"guesses":{"guesses_count":8,"mistakes_count":3}},"@times_index":12}
